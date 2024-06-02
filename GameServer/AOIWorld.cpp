@@ -1,5 +1,4 @@
 #include "AOIWorld.h"
-
 std::list<Player*> AOIWorld::GetSoundPlayers(Player* _player)
 {
 	std::list<Player*> ret;
@@ -46,7 +45,7 @@ std::list<Player*> AOIWorld::GetSoundPlayers(Player* _player)
 		std::list<Player*>& cur_list = _world[grid_id + 1].m_player;
 		ret.insert(ret.begin(), cur_list.begin(), cur_list.end());
 	}
-	return ;
+	return ret;
 }
 
 bool AOIWorld::AddPlayers(Player* _player)

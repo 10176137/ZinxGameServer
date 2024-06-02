@@ -30,12 +30,12 @@ class AOIWorld
 public:
 
 	// 获取周围玩家位值
-	std::list<Player*>GetSoundPlayers(Player* _player);
+	std::list<Player*> GetSoundPlayers(Player* _player);
 
 	bool AddPlayers(Player* _player);
 	void DelPlayer(Player* _player);
 	AOIWorld(int xBegin,
-	int xEnd = 0,
+	int xEnd ,
 	int yBegin ,
 	int yEnd ,
 	int xCount,
