@@ -1,6 +1,7 @@
 #include "GameProtocol.h"
 #include <cstring>
 #include "GameChannel.h"
+#include "GameRole.h"
 GameProtocl::GameProtocl()
 {
 
@@ -24,7 +25,7 @@ UserData* GameProtocl::raw2request(std::string _szInput)
 		}
 
 		int iLength = 0;
-		iLength = szLast[0] & 0xff;
+		iLength |= szLast[0] << 0;
 		iLength |= szLast[1] << 8;
 		iLength |= szLast[2] << 16;
 		iLength |= szLast[3] << 24;
@@ -44,8 +45,7 @@ UserData* GameProtocl::raw2request(std::string _szInput)
 		// 构造报文
 		GameMsg* pMsg = new GameMsg((GameMsg::MSG_type)id, szLast.substr(8, iLength));
 		pRet->GameMsgList.push_back(pMsg);
-		szLast = szLast.substr(8 + iLength, szLast.size() - 8 - iLength);
-		ZinxKernel::Zinx_SendOut(*(pRet->GameMsgList.front()), *this);
+		szLast.erase(0, 8 + iLength);
 	}
 	
 	return pRet;
@@ -71,7 +71,7 @@ std::string* GameProtocl::response2raw(UserData& _oUserData)
 
 Irole* GameProtocl::GetMsgProcessor(UserDataMsg& _oUserDataMsg)
 {
-	return nullptr;
+	return _gameRole;
 }
 
 Ichannel* GameProtocl::GetMsgSender(BytesMsg& _oBytes)

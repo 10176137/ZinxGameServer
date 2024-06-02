@@ -1,5 +1,5 @@
 #include "GameChannel.h"
-
+#include "GameRole.h"
 GameChannel::GameChannel(int _fd):ZinxTcpData(_fd)
 {
 }
@@ -19,6 +19,10 @@ ZinxTcpData* GameTcpFact::CreateTcpDataChannel(int _fd)
 	ZinxKernel::Zinx_Add_Channel(*pChannl);
 	auto pProtocol = new GameProtocl();
 	ZinxKernel::Zinx_Add_Proto(*pProtocol);
+	auto gameRole = new GameRole();
+	ZinxKernel::Zinx_Add_Role(*gameRole);
+	gameRole->_protocl = pProtocol;
+	pProtocol->_gameRole = gameRole;
 	pProtocol->TcpChannel = pChannl;
 	pChannl->_protocl = pProtocol;
 	return new GameChannel(_fd);
