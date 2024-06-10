@@ -9,6 +9,11 @@ GameProtocl::GameProtocl()
 
 GameProtocl::~GameProtocl()
 {
+	if (NULL != this->_gameRole)
+	{
+		ZinxKernel::Zinx_Del_Role(*_gameRole);
+		delete _gameRole;
+	}
 }
 
 UserData* GameProtocl::raw2request(std::string _szInput)
@@ -54,17 +59,19 @@ UserData* GameProtocl::raw2request(std::string _szInput)
 std::string* GameProtocl::response2raw(UserData& _oUserData)
 {
 	GameMsg* SendMesage = dynamic_cast<GameMsg*>(&_oUserData);
+
 	std::string MsgContent = SendMesage->serialize();
+	int id = SendMesage->enMsgType;
 	int iLength = MsgContent.size();
 	auto pret = new std::string();
-	pret[0] = (iLength >> 0) & 0xff;
-	pret[1] = (iLength >> 8) & 0xff;
-	pret[2] = (iLength >> 16) & 0xff;
-	pret[3] = (iLength >> 24) & 0xff;
-	pret[4] = (SendMesage->enMsgType >> 0) & 0xff;
-	pret[5] = (SendMesage->enMsgType >> 8) & 0xff;
-	pret[6] = (SendMesage->enMsgType >> 16) & 0xff;
-	pret[7] = (SendMesage->enMsgType >> 24) & 0xff;
+	pret->push_back((iLength >> 0) & 0xff);
+	pret->push_back((iLength >> 8) & 0xff);
+	pret->push_back((iLength >> 16) & 0xff);
+	pret->push_back((iLength >> 24) & 0xff);
+	pret->push_back((SendMesage->enMsgType >> 0) & 0xff);
+	pret->push_back((SendMesage->enMsgType >> 8) & 0xff);
+	pret->push_back((SendMesage->enMsgType >> 16) & 0xff);
+	pret->push_back((SendMesage->enMsgType >> 24) & 0xff);
 	pret->append(MsgContent);
 	return pret;
 }

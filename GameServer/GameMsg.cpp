@@ -46,4 +46,20 @@ std::string GameMsg::serialize()
 
 GameMsg::~GameMsg()
 {
+	if (NULL != pMsg)
+	{
+		delete pMsg;
+	}
+}
+
+MultMsg::~MultMsg()
+{
+	for (auto p : GameMsgList)
+	{
+		delete p;
+	}
+}
+
+MultMsg::MultMsg()
+{
 }

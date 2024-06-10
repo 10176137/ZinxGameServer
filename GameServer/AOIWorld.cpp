@@ -20,6 +20,8 @@ std::list<Player*> AOIWorld::GetSoundPlayers(Player* _player)
 		std::list<Player*>& cur_list = _world[grid_id - x_Count + 1].m_player;
 		ret.insert(ret.begin(), cur_list.begin(), cur_list.end());
 	}
+	std::list<Player*>& cur_list = _world[grid_id].m_player;
+	ret.insert(ret.begin(), cur_list.begin(), cur_list.end());
 	if (x_index > 0 && y_index < y_Count-1)
 	{
 		std::list<Player*>& cur_list = _world[grid_id - 1 + x_Count].m_player;

@@ -6,6 +6,12 @@ GameChannel::GameChannel(int _fd):ZinxTcpData(_fd)
 
 GameChannel::~GameChannel()
 {
+	if (this->_protocl != NULL)
+	{
+		ZinxKernel::Zinx_Del_Proto(*_protocl);
+		delete _protocl;
+	}
+
 }
 
 AZinxHandler* GameChannel::GetInputNextStage(BytesMsg& _oInput)
@@ -20,10 +26,11 @@ ZinxTcpData* GameTcpFact::CreateTcpDataChannel(int _fd)
 	auto pProtocol = new GameProtocl();
 	ZinxKernel::Zinx_Add_Proto(*pProtocol);
 	auto gameRole = new GameRole();
-	ZinxKernel::Zinx_Add_Role(*gameRole);
-	gameRole->_protocl = pProtocol;
 	pProtocol->_gameRole = gameRole;
 	pProtocol->TcpChannel = pChannl;
 	pChannl->_protocl = pProtocol;
+	gameRole->_protocl = pProtocol;
+	ZinxKernel::Zinx_Add_Role(*gameRole);
+
 	return new GameChannel(_fd);
 }

@@ -33,4 +33,6 @@ class MultMsg :public UserData
 {
 public:
 	std::list<GameMsg*> GameMsgList;
+	MultMsg();
+	~MultMsg();
 };
